@@ -1,27 +1,16 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import compression from "compression";
-import dotenv from "dotenv";
+import { createApp } from "./app.js";
 
-dotenv.config();
 
-const app = express();
+export function startServer(): void {
 
-const PORT = process.env.PORT || 3000;
+  const app = createApp();
 
-app.use(helmet());
-app.use(cors());
-app.use(compression());
-app.use(express.json());
+  console.log(
+    "Madrasa server initialized",
+    app.getRoutes()
+  );
 
-app.get("/", (_req, res) => {
-  res.json({
-    message: "Madrasa Qasim-ul-Uloom API is running",
-    status: "success"
-  });
-});
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+startServer();
