@@ -5,6 +5,11 @@ import type {
   RoleFilter
 } from "../types/role.js";
 
+import {
+  validateCreateRole,
+  validateUpdateRole
+} from "../validation/roleValidation.js";
+
 import type {
   RoleRepository as RoleRepositoryContract
 } from "../types/role.js";
@@ -54,6 +59,15 @@ export class RoleService {
     input: CreateRoleInput
   ): Promise<Role> {
 
+    const validation =
+      validateCreateRole(input);
+
+    if (!validation.valid) {
+      throw new Error(
+        validation.message
+      );
+    }
+
     const existing =
       await this.repository.findByName(
         input.name
@@ -75,6 +89,15 @@ export class RoleService {
     id: number,
     input: UpdateRoleInput
   ): Promise<Role> {
+
+    const validation =
+      validateUpdateRole(input);
+
+    if (!validation.valid) {
+      throw new Error(
+        validation.message
+      );
+    }
 
     const role =
       await this.repository.findById(
