@@ -6,7 +6,12 @@ export const healthRoute: RouteDefinition = {
   method: "GET",
   path: "/api/v1/health",
 
-  async handler(): Promise<void> {
-    return;
+  async handler() {
+    return {
+      success: true,
+      data: {
+        status: "ok"
+      }
+    };
   }
 };

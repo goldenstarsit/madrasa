@@ -9,10 +9,16 @@ export type HttpMethod =
   | "PATCH"
   | "DELETE";
 
+export interface RouteResponse<T = unknown> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
 export interface RouteHandler {
   (
     context: RequestContext
-  ): Promise<void> | void;
+  ): RouteResponse | Promise<RouteResponse>;
 }
 
 export interface RouteDefinition {
