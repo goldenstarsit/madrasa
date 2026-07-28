@@ -2,9 +2,11 @@ import { Router } from "./index.js";
 
 import { RoleRepository } from "../modules/role/repositories/roleRepository.js";
 import { StudentRepository } from "../modules/student/repositories/studentRepository.js";
+import { ClassRepository } from "../modules/class/repositories/classRepository.js";
 import { UserRepository } from "../modules/user/repositories/userRepository.js";
 import { RoleService } from "../modules/role/services/roleService.js";
 import { StudentService } from "../modules/student/services/studentService.js";
+import { ClassService } from "../modules/class/services/classService.js";
 import { UserService } from "../modules/user/services/userService.js";
 
 import {
@@ -22,6 +24,11 @@ import {
   createStudentHandlers,
   createStudentRoutes
 } from "../modules/student/routes/index.js";
+
+import {
+  createClassHandlers,
+  createClassRoutes
+} from "../modules/class/routes/index.js";
 import {
   createUserRoutes
 } from "../modules/user/routes/userRoutes.js";
@@ -93,6 +100,28 @@ export function registerV1Routes(): Router {
     );
 
   for (const route of studentRoutes) {
+    v1Router.register(route);
+  }
+
+  const classRepository =
+    new ClassRepository();
+
+  const classService =
+    new ClassService(
+      classRepository
+    );
+
+  const classHandlers =
+    createClassHandlers(
+      classService
+    );
+
+  const classRoutes =
+    createClassRoutes(
+      classHandlers
+    );
+
+  for (const route of classRoutes) {
     v1Router.register(route);
   }
 
