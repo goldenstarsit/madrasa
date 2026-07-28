@@ -1,15 +1,23 @@
 import { Router } from "./index.js";
 
 import { RoleRepository } from "../modules/role/repositories/roleRepository.js";
+import { UserRepository } from "../modules/user/repositories/userRepository.js";
 import { RoleService } from "../modules/role/services/roleService.js";
+import { UserService } from "../modules/user/services/userService.js";
 
 import {
   createRoleHandlers
 } from "../modules/role/routes/roleHandlers.js";
+import {
+  createUserHandlers
+} from "../modules/user/routes/userHandlers.js";
 
 import {
   createRoleRoutes
 } from "../modules/role/routes/roleRoutes.js";
+import {
+  createUserRoutes
+} from "../modules/user/routes/userRoutes.js";
 
 export const v1Router = new Router();
 
@@ -34,6 +42,28 @@ export function registerV1Routes(): Router {
     );
 
   for (const route of roleRoutes) {
+    v1Router.register(route);
+  }
+
+  const userRepository =
+    new UserRepository();
+
+  const userService =
+    new UserService(
+      userRepository
+    );
+
+  const userHandlers =
+    createUserHandlers(
+      userService
+    );
+
+  const userRoutes =
+    createUserRoutes(
+      userHandlers
+    );
+
+  for (const route of userRoutes) {
     v1Router.register(route);
   }
 
