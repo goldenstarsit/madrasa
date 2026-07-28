@@ -84,6 +84,11 @@ export interface UserRepository {
   ): Promise<User | null>;
 
 
+  findByEmail(
+    email: string
+  ): Promise<User | null>;
+
+
   create(
     input: CreateUserInput
   ): Promise<User>;
